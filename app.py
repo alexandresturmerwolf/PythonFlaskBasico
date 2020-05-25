@@ -3,6 +3,7 @@ import psycopg2
 from datetime import date
 
 app = Flask(__name__)
+
 app.secret_key = 'sadkljfsdakljfsdajklfsdlajkklsdjaklhweioyweq34'
 app.session_type = 'memcache'
 app.debug = True
@@ -37,10 +38,21 @@ def login():
         usuario = request.form['usuario']
         senha = request.form['senha']
 
-        if (usuario == 'admin' and senha == 'admin'):
-            session['estalogado'] = True
-        # endif
+        usuario = usuario.replace("'", '')
+        senha = senha.replace("'", '')
 
+        if (conn):
+            cur = conn.cursor();
+            cur.execute("SELECT nome FROM usuarios WHERE nome = '" + usuario + "' AND senha = '" + senha + "'")
+            rows = cur.fetchall()
+            if(rows):
+                print(rows)
+                session['estalogado'] = True
+            else:
+                print(rows)
+                session.pop('estalogado', None)
+            # endif
+        # endif
         return redirect("/")
     # endif
     return render_template("login.html")
