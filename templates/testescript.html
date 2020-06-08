@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Flask Page</title>
+    </head>
+    <body>
+
+        Olá pessoal agora são <div id='hora'></div>, o valor <span id='aleatorio'></span> vem de requisicao.
+
+        <br/><input type="button" value="Faz algo para mim" name="botao" onclick="mandafazeralgo(10)"/>
+
+        <input type="text" id="campopessoa" value="digite algo" />
+
+        Neste trechinho de código deve acontecer algo quando
+        pressionarem o botao Faz algo para min (
+
+        <span id="tabela"></span>
+
+        ) até aqui
+
+        <br>Isso ele executa de cara (
+
+        <div id="outraposicao"></div>
+
+        <script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js')}}"></script>
+
+        <script>
+            var meuUrl = "/retorna";
+            var meuData = {valor: 44};
+            $.post(
+                    meuUrl,
+                    meuData,
+                    function (response, status) {
+                        $("#outraposicao").html(response + "<br> como resposta e status " + status);
+                    }
+            )
+        </script>
+
+        ) observe que este conteudo veio do nada
+
+
+        <script>
+            function mandafazeralgo(valor) {
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '/retorna',
+                    data: {
+                        valor: valor
+                    },
+                    success: function (data) {
+                        $("#tabela").html(data);
+                    }
+                });
+            }
+
+            $(function () {
+
+                setTime();
+
+                function setTime() {
+                    var date = new Date().getTime();
+                    var string = "Hora: " + date;
+
+                    setTimeout(setTime, 3000);
+
+                    $('#hora').html(string);
+
+                    $.post(
+                            '/intercepta', // url
+                            {acao: 'aleatorio'}, // parametros
+                            function (response, status)
+                            {
+                                $("#aleatorio").html(response + "<br> como resposta e status " + status);
+                            }
+                    );
+                }
+            });
+
+        </script>
+    </body>
+</html>
