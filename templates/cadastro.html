@@ -1,6 +1,13 @@
 {% extends "template_base.html" %}
 
+
+
 {% block conteudo %}
+
+
+    onumero
+    <div id="chupitz"></div>
+
 
     <div class="box box-primary">
 
@@ -11,7 +18,7 @@
         <!-- form start -->
         <form role="form">
             <div class="box-body">
-                 <div class="form-group">
+                <div class="form-group">
                     <label for="exampleInputEmail1">Seu nome</label>
                     <input class="form-control" id="exampleInputNome" type="text" placeholder="Seu nome">
                 </div>
@@ -40,3 +47,22 @@
 
 {% endblock %}
 
+{% block scriptextra %}
+    <script>
+
+        function setTime() {
+            setTimeout(setTime, 5000);
+            $.post(
+                '/intercepta', // url
+                {acao: 'aleatorio'}, // parametros
+                function (response, status) {
+                    console.log(response);
+                    $("#chupitz").html(response);
+                }
+            );
+        }
+
+        setTime();
+
+    </script>
+{% endblock %}
