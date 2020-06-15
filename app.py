@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, json
 import psycopg2
 from datetime import date
 import random
@@ -70,6 +70,44 @@ def rota1():
     return render_template('/cadastro.html')
 # enddef
 
+
+@app.route('/inseredados', methods=['GET', 'POST'])
+def inseredados():
+    if request.method == 'POST':
+        nome = request.form['nome']
+        email = request.form['email']
+        senha = request.form['senha']
+
+        if (conn):
+            cur = conn.cursor();
+            #cur.execute("INSERT INTO tabela(nome, email, senha) VALUES ('" + nome + "','" +email + "','" + senha + "')")
+
+            cur.execute("INSERT INTO tabela(nome, email, senha) VALUES (%s, %s, %s)", (nome, email, senha))
+            conn.commit()
+
+            print("dados supostamente inseridos")
+
+        return redirect("/mostradados")
+    # endif
+
+    return "nao foi post"
+# enddef
+
+
+@app.route('/mostradados', methods=['GET', 'POST'])
+def mostradados():
+    if(conn):
+        cur = conn.cursor();
+        cur.execute("SELECT * FROM tabela")
+        rows = cur.fetchall()
+
+        print("aqui")
+        print(json.dumps(rows))
+        return str(rows) + "<a href='/rota1'>clique aqui para botar outro</a><br/>"
+    # endif
+
+    return "nao bombou"
+# enddef
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

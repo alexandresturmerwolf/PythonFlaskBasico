@@ -1,7 +1,5 @@
 {% extends "template_base.html" %}
 
-
-
 {% block conteudo %}
 
 
@@ -16,19 +14,19 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form role="form">
+        <form role="form" action="inseredados" method="POST">
             <div class="box-body">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Seu nome</label>
-                    <input class="form-control" id="exampleInputNome" type="text" placeholder="Seu nome">
+                    <input class="form-control" name="nome" id="exampleInputNome" type="text" placeholder="Seu nome">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
-                    <input class="form-control" id="exampleInputEmail1" type="email" placeholder="Enter email">
+                    <input class="form-control" name="email" id="exampleInputEmail1" type="email" placeholder="Enter email">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
-                    <input class="form-control" id="exampleInputPassword1" type="password" placeholder="Password">
+                    <input class="form-control" name="senha" id="exampleInputPassword1" type="password" placeholder="Password">
                 </div>
 
                 <div class="checkbox">
